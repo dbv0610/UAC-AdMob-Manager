@@ -1,0 +1,56 @@
+# Đóng gói: tên + icon hiện đúng trên dock, Finder, Start menu, cửa sổ. Ký số + auto-update làm ở GĐ 5.4.
+appId: com.blueleafapps.uacadmobmanager
+productName: AppOps Studio # appId giữ nguyên: bản cài mới thay bản cũ, auto-update không đứt
+copyright: © BlueLeaf Apps
+directories:
+  buildResources: build # icon.icns / icon.ico / icon.png
+  # Đường dẫn project có '&' mà electron-builder không chấp nhận → xuất ra ngoài
+  output: ${env.HOME}/Builds/uac-admob-manager
+files:
+  - out/**
+  - package.json
+  # ffprobe-static kèm binary mọi nền tảng (~vài trăm MB): chỉ giữ đúng nền tảng đang build
+  - "!node_modules/ffprobe-static/bin/**"
+  - "node_modules/ffprobe-static/bin/${platform}/${arch}/**"
+# better-sqlite3 có prebuild N-API chạy thẳng trong Electron; node-gyp lỗi vì đường dẫn có dấu cách
+npmRebuild: false
+asarUnpack:
+  - node_modules/ffmpeg-static/**
+  - node_modules/ffprobe-static/**
+  - node_modules/better-sqlite3/**
+extraResources:
+  - from: resources/migrations
+    to: migrations
+  - from: resources/icon.png
+    to: icon.png
+# Khóa các đường tấn công qua binary Electron (chạy như Node, --inspect, sửa app.asar)
+electronFuses:
+  runAsNode: false
+  enableCookieEncryption: true
+  enableNodeOptionsEnvironmentVariable: false
+  enableNodeCliInspectArguments: false
+  enableEmbeddedAsarIntegrityValidation: true
+  onlyLoadAppFromAsar: true
+  resetAdHocDarwinSignature: true # bản chưa ký trên Apple Silicon vẫn mở được sau khi đổi fuse
+# Auto-update: bản phát hành đăng lên GitHub Releases (repo cần tạo trước; repo private thì cần GH_TOKEN khi publish)
+publish:
+  provider: github
+  owner: StudioAppDev
+  repo: uac-admob-manager
+  releaseType: draft
+mac:
+  # null = không ký (bản chạy nội bộ). Ký Developer ID + notarize làm ở GĐ 5.4
+  identity: null
+  category: public.app-category.business
+  icon: build/icon.icns
+  target: [dmg, zip]
+  # Khi có Apple Developer ID: bỏ `identity: null`, thêm notarize (APPLE_ID, APPLE_APP_SPECIFIC_PASSWORD, APPLE_TEAM_ID)
+  hardenedRuntime: true
+win:
+  icon: build/icon.ico
+  target: [nsis]
+  # Khi có chứng chỉ code signing: đặt CSC_LINK (file .pfx) + CSC_KEY_PASSWORD trong môi trường build
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  shortcutName: AppOps Studio

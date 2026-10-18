@@ -1,0 +1,21 @@
+node_modules
+out
+dist
+*.log
+.DS_Store
+
+# Secret: OAuth client nhúng lúc build — dùng .env.example làm mẫu
+.env
+.env.*
+!.env.example
+
+# Dữ liệu (database SQLite, bản sao lưu trước migrate, ảnh chụp e2e, file xuất)
+*.db
+*.db-shm
+*.db-wal
+*.sqlite*
+*.bak-*
+e2e/out/
+*.xlsx
+*.csv
+coverage/

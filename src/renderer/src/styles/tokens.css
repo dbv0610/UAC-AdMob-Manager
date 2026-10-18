@@ -1,0 +1,41 @@
+/* Token dạng kênh RGB để dùng được rgb(var(--x) / alpha). Đổi sáng/tối và mật độ không cần sửa component.
+   Theme sáng là mặc định: nền trung tính để bảng số dễ đọc, màu rực rỡ dành cho accent, điều hướng và trạng thái.
+   Mọi màu dùng làm chữ đạt tương phản ≥ 4.5:1 trên --surface (WCAG AA). */
+:root {
+  --bg: 245 247 252;
+  --surface: 255 255 255;
+  --surface-2: 238 241 250;
+  --border: 221 226 238;
+  --text: 17 24 39;
+  --muted: 75 85 99; /* gray-600: 7:1 */
+  --accent: 79 70 229; /* indigo-600: chữ trắng 6.3:1 */
+  --accent-fg: 255 255 255;
+  --accent-2: 219 39 119; /* pink-600: điểm nhấn, gradient */
+  --success: 4 120 87; /* emerald-700 */
+  --warning: 180 83 9; /* amber-700 */
+  --danger: 225 29 72; /* rose-600 */
+  --info: 37 99 235; /* blue-600 */
+  --row-h: 32px;
+  --r-sm: 6px;
+  --r-lg: 10px;
+}
+
+.dark {
+  --bg: 15 23 42;
+  --surface: 30 41 59;
+  --surface-2: 22 32 50;
+  --border: 51 65 85;
+  --text: 241 245 249;
+  --muted: 148 163 184;
+  --accent: 129 140 248; /* indigo-400 với chữ tối */
+  --accent-fg: 15 23 42;
+  --accent-2: 244 114 182;
+  --success: 52 211 153;
+  --warning: 251 191 36;
+  --danger: 251 113 133;
+  --info: 96 165 250;
+}
+
+.density-comfortable {
+  --row-h: 40px;
+}
